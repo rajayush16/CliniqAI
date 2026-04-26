@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { BookMarked, History, LayoutDashboard, Search, Settings } from "lucide-react";
 import { cn } from "../../lib/utils";
+import { BrandLogo } from "../common/BrandLogo";
 
 const items = [
   { href: "/app", label: "Dashboard", icon: LayoutDashboard },
@@ -13,9 +14,8 @@ const items = [
 export function Sidebar() {
   return (
     <aside className="hidden w-72 border-r border-[#dbe6f2] bg-white lg:block">
-      <div className="flex h-16 items-center border-b border-[#e6edf5] px-6">
-        <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[#1f5fbf] text-sm font-bold text-white">C</div>
-        <span className="ml-3 text-lg font-semibold text-[#18324f]">CliniqAI</span>
+      <div className="flex h-20 items-center border-b border-[#e6edf5] px-6">
+        <BrandLogo to="/app" size="nav" />
       </div>
       <nav className="space-y-1 p-4">
         {items.map((item) => (
@@ -38,4 +38,3 @@ export function Sidebar() {
     </aside>
   );
 }
-

@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle2, Database, FileSearch, ShieldCheck, Stethoscop
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
+import { BrandLogo } from "../components/common/BrandLogo";
 
 const features = [
   "Citation-aware answers from trusted literature",
@@ -15,12 +16,9 @@ const features = [
 export function Landing() {
   return (
     <main className="bg-[#f7fafc] text-[#18324f]">
-      <header className="border-b border-[#dbe6f2] bg-white">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link to="/" className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-[#1f5fbf] font-bold text-white">C</div>
-            <span className="text-lg font-semibold">CliniqAI</span>
-          </Link>
+      <header className="sticky top-0 z-30 border-b border-[#dbe6f2] bg-white/95 backdrop-blur">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <BrandLogo to="/" size="nav" />
           <div className="flex items-center gap-3">
             <Link to="/login" className="text-sm font-semibold text-[#4d6178]">Log in</Link>
             <Link to="/signup">
@@ -30,9 +28,12 @@ export function Landing() {
         </div>
       </header>
 
-      <section className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
+      <section className="mx-auto grid min-h-[680px] max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-20">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
-          <Badge className="mb-6">For clinical professionals</Badge>
+          <div className="mb-8 flex flex-col gap-4">
+            <BrandLogo size="hero" className="hidden sm:block" />
+            <Badge className="w-fit">For clinical professionals</Badge>
+          </div>
           <h1 className="max-w-4xl text-5xl font-semibold leading-tight tracking-normal text-[#102a43] sm:text-6xl">
             Evidence-based medical answers in under a minute
           </h1>
@@ -54,12 +55,12 @@ export function Landing() {
 
         <Card className="overflow-hidden">
           <CardContent className="p-0">
-            <div className="border-b border-[#dbe6f2] bg-[#f8fbfe] p-5">
-              <p className="text-sm font-semibold text-[#245896]">Example clinical question</p>
+            <div className="border-b border-[#dbe6f2] bg-white p-5">
+              <p className="text-sm font-semibold text-[#1665b8]">Example clinical question</p>
               <p className="mt-2 text-xl font-semibold">What is the latest evidence on SGLT2 inhibitors in heart failure?</p>
             </div>
             <div className="space-y-4 p-5">
-              <div className="rounded-md bg-[#edf5ff] p-4">
+              <div className="rounded-md border border-[#d8e8f7] bg-[#f0f7ff] p-4">
                 <p className="text-sm font-semibold">Direct answer</p>
                 <p className="mt-2 text-sm leading-6 text-[#52667a]">
                   Recent trial and review literature supports SGLT2 inhibitors as evidence-backed therapy across heart failure phenotypes, with benefits requiring patient-specific clinical judgment.
@@ -140,11 +141,10 @@ export function Landing() {
 
       <footer className="border-t border-[#dbe6f2] bg-white py-8">
         <div className="mx-auto flex max-w-7xl flex-col justify-between gap-3 px-4 text-sm text-[#62758d] sm:flex-row sm:px-6 lg:px-8">
-          <span>CliniqAI</span>
+          <BrandLogo size="compact" />
           <span>Trusted medical literature only</span>
         </div>
       </footer>
     </main>
   );
 }
-

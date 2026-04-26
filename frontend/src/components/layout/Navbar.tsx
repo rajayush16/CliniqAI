@@ -1,7 +1,8 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { LogOut, Menu, Search } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { Button } from "../ui/button";
+import { BrandLogo } from "../common/BrandLogo";
 
 export function Navbar() {
   const { user, logout } = useAuth();
@@ -11,7 +12,7 @@ export function Navbar() {
       <div className="flex h-16 items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-3 lg:hidden">
           <Menu className="h-5 w-5 text-[#4d6178]" />
-          <Link to="/app" className="font-semibold text-[#18324f]">CliniqAI</Link>
+          <BrandLogo to="/app" size="compact" />
         </div>
         <div className="hidden items-center gap-2 rounded-md border border-[#dbe6f2] bg-[#f8fbfe] px-3 py-2 text-sm text-[#8293a7] lg:flex">
           <Search className="h-4 w-4" />
@@ -43,4 +44,3 @@ export function Navbar() {
     </header>
   );
 }
-

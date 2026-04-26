@@ -18,6 +18,11 @@ app.add_middleware(
 )
 
 
+@app.get("/")
+def root() -> str:
+    return "CliniqAI API is running"
+
+
 @app.on_event("startup")
 def on_startup() -> None:
     init_db()
@@ -27,4 +32,3 @@ app.include_router(health.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")
 app.include_router(questions.router, prefix="/api")
 app.include_router(papers.router, prefix="/api")
-

@@ -18,8 +18,8 @@ export function SavedPapers() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold">Saved papers</h1>
-        <p className="mt-2 text-[#62758d]">Keep important cited literature available for later review.</p>
+        <h1 className="text-3xl font-semibold text-slate-950 dark:text-white">Saved papers</h1>
+        <p className="mt-2 text-slate-500 dark:text-slate-400">Keep important cited literature available for later review.</p>
       </div>
       <Card>
         <CardHeader><h2 className="font-semibold">Library</h2></CardHeader>
@@ -43,4 +43,3 @@ export function SavedPapers() {
     </div>
   );
 }
-

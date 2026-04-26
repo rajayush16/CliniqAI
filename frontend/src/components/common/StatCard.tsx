@@ -12,14 +12,13 @@ export function StatCard({ label, value, icon: Icon }: StatCardProps) {
     <Card>
       <CardContent className="flex items-center justify-between">
         <div>
-          <p className="text-sm text-[#62758d]">{label}</p>
-          <p className="mt-2 text-2xl font-semibold text-[#18324f]">{value}</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400">{label}</p>
+          <p className="mt-2 text-2xl font-semibold text-slate-950 dark:text-white">{value}</p>
         </div>
-        <div className="rounded-md bg-[#edf5ff] p-3 text-[#245896]">
+        <div className="rounded-xl bg-cyan-50 p-3 text-cyan-700 dark:bg-cyan-400/10 dark:text-cyan-200">
           <Icon className="h-5 w-5" />
         </div>
       </CardContent>
     </Card>
   );
 }
-

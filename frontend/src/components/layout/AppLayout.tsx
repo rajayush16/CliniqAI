@@ -4,7 +4,7 @@ import { Sidebar } from "./Sidebar";
 
 export function AppLayout() {
   return (
-    <div className="min-h-screen bg-[#f5f8fb]">
+    <div className="min-h-screen bg-transparent text-slate-950 dark:text-slate-50">
       <div className="flex min-h-screen">
         <Sidebar />
         <div className="min-w-0 flex-1">
@@ -17,4 +17,3 @@ export function AppLayout() {
     </div>
   );
 }
-

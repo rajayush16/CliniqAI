@@ -22,8 +22,8 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       {children}
       <div className="fixed bottom-4 right-4 z-50 space-y-2">
         {toasts.map((item) => (
-          <div key={item.id} className="flex min-w-72 items-center gap-3 rounded-lg border border-[#cfe0f4] bg-white p-3 text-sm text-[#18324f] shadow-lg">
-            <CheckCircle2 className="h-5 w-5 text-[#1f7a59]" />
+          <div key={item.id} className="flex min-w-72 items-center gap-3 rounded-2xl border border-slate-200 bg-white/90 p-3 text-sm text-slate-950 shadow-2xl backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/90 dark:text-white">
+            <CheckCircle2 className="h-5 w-5 text-emerald-500" />
             <span className="flex-1">{item.message}</span>
             <Button variant="ghost" size="icon" onClick={() => setToasts((items) => items.filter((toastItem) => toastItem.id !== item.id))}>
               <X className="h-4 w-4" />
@@ -40,4 +40,3 @@ export function useToast() {
   if (!context) throw new Error("useToast must be used inside ToastProvider");
   return context;
 }
-

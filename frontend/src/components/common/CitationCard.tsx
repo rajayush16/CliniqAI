@@ -19,11 +19,11 @@ export function CitationCard({ paper, onSave }: CitationCardProps) {
               <SourceBadge source={paper.source ?? "Medical source"} />
               {paper.year ? <span className="text-xs font-medium text-[#62758d]">{paper.year}</span> : null}
             </div>
-            <h3 className="mt-3 text-base font-semibold leading-6 text-[#18324f]">{paper.title}</h3>
-            <p className="mt-2 text-sm text-[#62758d]">
+            <h3 className="mt-3 text-base font-semibold leading-6 text-slate-950 dark:text-white">{paper.title}</h3>
+            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
               {[paper.authors, paper.journal].filter(Boolean).join(" | ") || "Publication metadata unavailable"}
             </p>
-            <p className="mt-2 text-xs text-[#8293a7]">
+            <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">
               {[paper.pmid ? `PMID ${paper.pmid}` : null, paper.doi ? `DOI ${paper.doi}` : null].filter(Boolean).join(" | ")}
             </p>
           </div>
@@ -45,4 +45,3 @@ export function CitationCard({ paper, onSave }: CitationCardProps) {
     </Card>
   );
 }
-

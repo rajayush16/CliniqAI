@@ -9,8 +9,8 @@ export function Settings() {
   return (
     <div className="max-w-3xl space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold">Settings</h1>
-        <p className="mt-2 text-[#62758d]">Manage account details and workspace preferences.</p>
+        <h1 className="text-3xl font-semibold text-slate-950 dark:text-white">Settings</h1>
+        <p className="mt-2 text-slate-500 dark:text-slate-400">Manage account details and workspace preferences.</p>
       </div>
       <Card>
         <CardHeader><h2 className="font-semibold">Profile</h2></CardHeader>
@@ -27,7 +27,7 @@ export function Settings() {
       </Card>
       <Card>
         <CardHeader><h2 className="font-semibold">Evidence preferences</h2></CardHeader>
-        <CardContent className="space-y-3 text-sm text-[#62758d]">
+        <CardContent className="space-y-3 text-sm text-slate-500 dark:text-slate-400">
           <p>Default source scope: PubMed and Europe PMC.</p>
           <p>Default result mode: concise answer with citations and clinical safety note.</p>
           <Button variant="secondary" onClick={logout}>Log out</Button>
@@ -36,4 +36,3 @@ export function Settings() {
     </div>
   );
 }
-

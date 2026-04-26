@@ -1,6 +1,7 @@
 from functools import lru_cache
+import shlex
 
-from pydantic import Field
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -19,8 +20,41 @@ class Settings(BaseSettings):
     request_timeout_seconds: float = 12.0
     max_sources: int = 8
 
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def normalize_database_url(cls, value: str | None) -> str:
+        if not value:
+            return "sqlite:///./cliniqai.db"
+
+        value = value.strip().strip('"').strip("'")
+        if value.startswith("postgresql://"):
+            return value.replace("postgresql://", "postgresql+psycopg://", 1)
+        return value
+
+    @field_validator("redis_url", mode="before")
+    @classmethod
+    def normalize_redis_url(cls, value: str | None) -> str | None:
+        if not value:
+            return None
+
+        value = value.strip().strip('"').strip("'")
+        if not value:
+            return None
+
+        uses_tls = False
+        if value.startswith("redis-cli"):
+            parts = shlex.split(value)
+            uses_tls = "--tls" in parts
+            if "-u" in parts:
+                url_index = parts.index("-u") + 1
+                value = parts[url_index] if url_index < len(parts) else ""
+
+        if uses_tls and value.startswith("redis://"):
+            value = value.replace("redis://", "rediss://", 1)
+
+        return value or None
+
 
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
-

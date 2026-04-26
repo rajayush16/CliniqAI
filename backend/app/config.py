@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     llm_model: str = Field(default="openrouter/free", alias="LLM_MODEL")
     ncbi_api_key: str | None = Field(default=None, alias="NCBI_API_KEY")
     frontend_url: str = Field(default="http://localhost:5173", alias="FRONTEND_URL")
+    cors_origins: str = Field(default="", alias="CORS_ORIGINS")
     request_timeout_seconds: float = 12.0
     max_sources: int = 8
 
@@ -57,6 +58,20 @@ class Settings(BaseSettings):
             value = value.replace("redis://", "rediss://", 1)
 
         return value or None
+
+    @property
+    def allowed_origins(self) -> list[str]:
+        configured = [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+        return list(
+            dict.fromkeys(
+                [
+                    self.frontend_url.rstrip("/"),
+                    "http://localhost:5173",
+                    "http://127.0.0.1:5173",
+                    *[origin.rstrip("/") for origin in configured],
+                ]
+            )
+        )
 
 
 @lru_cache

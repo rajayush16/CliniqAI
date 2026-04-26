@@ -1,4 +1,5 @@
 import httpx
+import xml.etree.ElementTree as ET
 
 from app.config import get_settings
 from app.schemas.question import QuestionFilters, SourcePaper
@@ -33,8 +34,27 @@ class PubMedService:
             )
             summary_response.raise_for_status()
             summary = summary_response.json().get("result", {})
+            abstracts = await self._fetch_abstracts(client, ids)
 
-        return [self._to_source(summary.get(pmid, {}), pmid) for pmid in ids if summary.get(pmid)]
+        return [self._to_source(summary.get(pmid, {}), pmid, abstracts.get(pmid)) for pmid in ids if summary.get(pmid)]
+
+    async def _fetch_abstracts(self, client: httpx.AsyncClient, ids: list[str]) -> dict[str, str]:
+        if not ids:
+            return {}
+
+        response = await client.get(
+            f"{self.base_url}/efetch.fcgi",
+            params={"db": "pubmed", "id": ",".join(ids), "retmode": "xml"},
+        )
+        response.raise_for_status()
+        root = ET.fromstring(response.text)
+        abstracts: dict[str, str] = {}
+        for article in root.findall(".//PubmedArticle"):
+            pmid = article.findtext(".//PMID")
+            abstract_parts = [node.text or "" for node in article.findall(".//AbstractText")]
+            if pmid and abstract_parts:
+                abstracts[pmid] = " ".join(part.strip() for part in abstract_parts if part.strip())
+        return abstracts
 
     def _build_term(self, query: str, filters: QuestionFilters) -> str:
         terms = [query]
@@ -46,7 +66,7 @@ class PubMedService:
             terms.append("clinical trial[Publication Type]")
         return " AND ".join(terms)
 
-    def _to_source(self, item: dict, pmid: str) -> SourcePaper:
+    def _to_source(self, item: dict, pmid: str, abstract: str | None) -> SourcePaper:
         authors = item.get("authors") or []
         names = ", ".join(author.get("name", "") for author in authors[:5] if author.get("name"))
         article_ids = item.get("articleids") or []
@@ -60,9 +80,8 @@ class PubMedService:
             doi=doi,
             source="PubMed",
             source_url=f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/",
-            abstract=item.get("sorttitle") or item.get("title"),
+            abstract=abstract or item.get("title"),
         )
 
 
 pubmed_service = PubMedService()
-

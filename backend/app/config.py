@@ -15,6 +15,10 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 60 * 8
     openai_api_key: str | None = Field(default=None, alias="OPENAI_API_KEY")
+    openrouter_api_key: str | None = Field(default=None, alias="OPENROUTER_API_KEY")
+    groq_api_key: str | None = Field(default=None, alias="GROQ_API_KEY")
+    llm_provider: str = Field(default="openrouter", alias="LLM_PROVIDER")
+    llm_model: str = Field(default="openrouter/free", alias="LLM_MODEL")
     ncbi_api_key: str | None = Field(default=None, alias="NCBI_API_KEY")
     frontend_url: str = Field(default="http://localhost:5173", alias="FRONTEND_URL")
     request_timeout_seconds: float = 12.0

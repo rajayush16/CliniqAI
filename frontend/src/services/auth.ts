@@ -18,4 +18,3 @@ export function signup(payload: SignupPayload) {
 export function getMe() {
   return apiRequest<User>("/api/auth/me");
 }
-

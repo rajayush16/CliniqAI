@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Menu, Search, Sparkles } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
-import { BrandLogo } from "../common/BrandLogo";
+import { ThemeLogo } from "../common/ThemeLogo";
 import { ThemeToggle } from "../common/ThemeToggle";
 
 export function Navbar() {
@@ -12,7 +12,7 @@ export function Navbar() {
       <div className="flex h-16 items-center justify-between px-4 sm:px-6">
         <div className="flex items-center gap-3 lg:hidden">
           <Menu className="h-5 w-5 text-slate-500 dark:text-slate-400" />
-          <BrandLogo to="/app" size="compact" />
+          <ThemeLogo to="/app" size="compact" />
         </div>
         <div className="hidden items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-4 py-2 text-sm font-medium text-slate-500 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-400 lg:flex">
           <Search className="h-4 w-4" />

@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
     app_name: str = "CliniqAI API"
-    database_url: str = Field(default="sqlite:///./cliniqai.db", alias="DATABASE_URL")
+    database_url: str = Field(default="postgresql+psycopg://localhost/cliniqai", alias="DATABASE_URL")
     redis_url: str | None = Field(default=None, alias="REDIS_URL")
     jwt_secret: str = Field(default="dev-only-change-me", alias="JWT_SECRET")
     jwt_algorithm: str = "HS256"
@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     @classmethod
     def normalize_database_url(cls, value: str | None) -> str:
         if not value:
-            return "sqlite:///./cliniqai.db"
+            return "postgresql+psycopg://localhost/cliniqai"
 
         value = value.strip().strip('"').strip("'")
         if value.startswith("postgresql://"):

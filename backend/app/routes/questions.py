@@ -79,4 +79,3 @@ def delete_question(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Question not found")
     db.delete(question)
     db.commit()
-

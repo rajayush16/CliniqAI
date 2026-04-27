@@ -1,6 +1,5 @@
 import { FormEvent } from "react";
-import { ArrowUp, Sparkles } from "lucide-react";
-import { Button } from "../ui/button";
+import { Sparkles } from "lucide-react";
 import { Textarea } from "../ui/textarea";
 
 type AgentPromptBoxProps = {
@@ -32,13 +31,9 @@ export function AgentPromptBox({ value, onChange, onSubmit, isLoading, placehold
         required
         className="border-0 bg-transparent shadow-none focus:ring-0 dark:bg-transparent"
       />
-      <div className="flex items-center justify-between gap-3 border-t border-slate-200 px-2 pt-3 dark:border-slate-800">
+      <div className="flex items-center gap-3 border-t border-slate-200 px-2 pt-3 dark:border-slate-800">
         <p className="text-xs text-slate-500 dark:text-slate-400">Grounded in PubMed and Europe PMC citations</p>
-        <Button type="submit" size="icon" disabled={isLoading || value.trim().length < 8} aria-label="Submit question">
-          <ArrowUp className="h-4 w-4" />
-        </Button>
       </div>
     </form>
   );
 }
-

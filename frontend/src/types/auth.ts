@@ -21,4 +21,3 @@ export type SignupPayload = LoginPayload & {
   name: string;
   role?: string;
 };
-

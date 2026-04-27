@@ -20,4 +20,3 @@ class User(Base):
 
     questions = relationship("Question", back_populates="user", cascade="all, delete-orphan")
     saved_papers = relationship("SavedPaper", back_populates="user", cascade="all, delete-orphan")
-

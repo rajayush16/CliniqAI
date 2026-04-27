@@ -8,7 +8,7 @@ import { useToast } from "../components/ui/toast";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import { Input } from "../components/ui/input";
-import { BrandLogo } from "../components/common/BrandLogo";
+import { ThemeLogo } from "../components/common/ThemeLogo";
 import { ThemeToggle } from "../components/common/ThemeToggle";
 
 export function Signup() {
@@ -37,7 +37,7 @@ export function Signup() {
     <main className="grid min-h-screen p-4 text-slate-950 dark:text-white lg:grid-cols-[1fr_520px] lg:p-6">
       <section className="relative hidden overflow-hidden rounded-[2rem] border border-white/70 bg-white/72 p-10 shadow-2xl shadow-slate-950/10 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/72 lg:flex lg:flex-col lg:justify-between">
         <div className="absolute right-0 top-0 h-80 w-80 rounded-full bg-blue-500/20 blur-3xl" />
-        <BrandLogo to="/" size="hero" />
+        <ThemeLogo to="/" size="hero" />
         <div className="relative">
           <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-cyan-50 px-3 py-1 text-xs font-bold text-cyan-800 dark:bg-cyan-400/10 dark:text-cyan-200">
             <Sparkles className="h-3.5 w-3.5" />
@@ -64,7 +64,7 @@ export function Signup() {
       <section className="flex items-center justify-center p-2 lg:p-8">
         <div className="w-full max-w-md">
           <div className="mb-8 flex items-center justify-between lg:hidden">
-            <BrandLogo to="/" size="nav" />
+            <ThemeLogo to="/" size="nav" />
             <ThemeToggle />
           </div>
           <Card>

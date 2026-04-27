@@ -25,4 +25,3 @@ export function UserProfileCard({ user, onLogout }: UserProfileCardProps) {
     </div>
   );
 }
-

@@ -17,8 +17,10 @@ def register(payload: UserCreate, db: Session = Depends(get_db)) -> Token:
     if existing:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="An account with this email already exists")
 
+    display_name = payload.name.strip()
     user = User(
-        name=payload.name.strip(),
+        name=display_name,
+        full_name=display_name,
         email=payload.email.lower(),
         password_hash=hash_password(payload.password),
         role=payload.role,

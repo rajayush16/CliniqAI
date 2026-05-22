@@ -7,7 +7,7 @@ from app.schemas.question import QuestionFilters, SourcePaper
 class EuropePmcService:
     base_url = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 
-    async def search(self, query: str, filters: QuestionFilters, limit: int = 8) -> list[SourcePaper]:
+    async def search(self, query: str, filters: QuestionFilters, limit: int = 12) -> list[SourcePaper]:
         settings = get_settings()
         params = {
             "query": self._build_query(query, filters),

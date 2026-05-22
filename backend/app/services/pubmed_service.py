@@ -8,7 +8,7 @@ from app.schemas.question import QuestionFilters, SourcePaper
 class PubMedService:
     base_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 
-    async def search(self, query: str, filters: QuestionFilters, limit: int = 8) -> list[SourcePaper]:
+    async def search(self, query: str, filters: QuestionFilters, limit: int = 12) -> list[SourcePaper]:
         settings = get_settings()
         term = self._build_term(query, filters)
         params = {

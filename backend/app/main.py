@@ -1,9 +1,13 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
 from app.database import init_db
 from app.routes import auth, health, papers, questions
+
+logger = logging.getLogger(__name__)
 
 settings = get_settings()
 
@@ -27,6 +31,8 @@ def root() -> str:
 @app.on_event("startup")
 def on_startup() -> None:
     init_db()
+    logger.info("CliniqAI started — allowed CORS origins: %s", settings.allowed_origins)
+    logger.info("LLM provider: %s | model: %s", settings.llm_provider, settings.llm_model)
 
 
 app.include_router(health.router, prefix="/api")

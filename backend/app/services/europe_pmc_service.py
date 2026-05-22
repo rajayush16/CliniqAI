@@ -1,7 +1,10 @@
+import logging
 import httpx
 
 from app.config import get_settings
 from app.schemas.question import QuestionFilters, SourcePaper
+
+logger = logging.getLogger(__name__)
 
 
 class EuropePmcService:
@@ -15,10 +18,14 @@ class EuropePmcService:
             "pageSize": str(limit),
             "resultType": "core",
         }
-        async with httpx.AsyncClient(timeout=settings.request_timeout_seconds) as client:
-            response = await client.get(self.base_url, params=params)
-            response.raise_for_status()
-            results = response.json().get("resultList", {}).get("result", [])
+        try:
+            async with httpx.AsyncClient(timeout=settings.request_timeout_seconds) as client:
+                response = await client.get(self.base_url, params=params)
+                response.raise_for_status()
+                results = response.json().get("resultList", {}).get("result", [])
+        except (httpx.RequestError, httpx.HTTPStatusError) as exc:
+            logger.warning("Europe PMC search failed: %s", exc)
+            return []
         return [self._to_source(item) for item in results]
 
     def _build_query(self, query: str, filters: QuestionFilters) -> str:

@@ -1,9 +1,12 @@
 import json
+import logging
 
 import httpx
 
 from app.config import get_settings
 from app.schemas.question import SourcePaper
+
+logger = logging.getLogger(__name__)
 
 
 class LlmService:
@@ -68,10 +71,21 @@ class LlmService:
             ],
         }
 
-        async with httpx.AsyncClient(timeout=settings.request_timeout_seconds + 20) as client:
-            response = await client.post(url, headers=headers, json=payload)
-            response.raise_for_status()
-            content = response.json()["choices"][0]["message"]["content"]
+        try:
+            async with httpx.AsyncClient(timeout=settings.request_timeout_seconds + 20) as client:
+                response = await client.post(url, headers=headers, json=payload)
+                response.raise_for_status()
+                data = response.json()
+                content = data["choices"][0]["message"]["content"]
+        except httpx.TimeoutException:
+            logger.warning("LLM request timed out for model %s", model)
+            return None
+        except httpx.HTTPStatusError as exc:
+            logger.warning("LLM API returned %s: %s", exc.response.status_code, exc.response.text[:300])
+            return None
+        except (httpx.RequestError, KeyError, IndexError) as exc:
+            logger.warning("LLM request failed: %s", exc)
+            return None
 
         try:
             parsed = json.loads(content)

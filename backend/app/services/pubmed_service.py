@@ -1,8 +1,11 @@
+import logging
 import httpx
 import xml.etree.ElementTree as ET
 
 from app.config import get_settings
 from app.schemas.question import QuestionFilters, SourcePaper
+
+logger = logging.getLogger(__name__)
 
 
 class PubMedService:
@@ -21,20 +24,24 @@ class PubMedService:
         if settings.ncbi_api_key:
             params["api_key"] = settings.ncbi_api_key
 
-        async with httpx.AsyncClient(timeout=settings.request_timeout_seconds) as client:
-            search_response = await client.get(f"{self.base_url}/esearch.fcgi", params=params)
-            search_response.raise_for_status()
-            ids = search_response.json().get("esearchresult", {}).get("idlist", [])
-            if not ids:
-                return []
+        try:
+            async with httpx.AsyncClient(timeout=settings.request_timeout_seconds) as client:
+                search_response = await client.get(f"{self.base_url}/esearch.fcgi", params=params)
+                search_response.raise_for_status()
+                ids = search_response.json().get("esearchresult", {}).get("idlist", [])
+                if not ids:
+                    return []
 
-            summary_response = await client.get(
-                f"{self.base_url}/esummary.fcgi",
-                params={"db": "pubmed", "id": ",".join(ids), "retmode": "json"},
-            )
-            summary_response.raise_for_status()
-            summary = summary_response.json().get("result", {})
-            abstracts = await self._fetch_abstracts(client, ids)
+                summary_response = await client.get(
+                    f"{self.base_url}/esummary.fcgi",
+                    params={"db": "pubmed", "id": ",".join(ids), "retmode": "json"},
+                )
+                summary_response.raise_for_status()
+                summary = summary_response.json().get("result", {})
+                abstracts = await self._fetch_abstracts(client, ids)
+        except (httpx.RequestError, httpx.HTTPStatusError) as exc:
+            logger.warning("PubMed search failed: %s", exc)
+            return []
 
         return [self._to_source(summary.get(pmid, {}), pmid, abstracts.get(pmid)) for pmid in ids if summary.get(pmid)]
 
